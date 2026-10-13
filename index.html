@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>COD Remittance Recovery · Razorpay</title>
+<meta name="description" content="Check every Shiprocket COD payout against your Razorpay orders and claim what's missing, from the Razorpay app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="stage">
+  <section class="device-col" aria-label="Razorpay app">
+    <div class="device" id="device">
+      <div class="notch" aria-hidden="true"></div>
+      <div class="screen" id="screen"></div>
+      <div class="sheet-layer" id="sheet" hidden></div>
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </div>
+    <button class="side-toggle" id="sideToggle" aria-controls="side">Behind the scenes</button>
+  </section>
+
+  <aside class="side" id="side" aria-label="Behind the scenes">
+    <header class="side-head">
+      <div class="brand-row">
+        <span class="rzp-mark" aria-hidden="true"></span>
+        <span class="brand-name">Razorpay</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-feature">COD Remittance Recovery</span>
+      </div>
+      <h1>Couriers remit. Razorpay checks. You claim.</h1>
+      <p class="lede">For D2C brands on Magic Checkout that ship cash-on-delivery through Shiprocket. Shiprocket collects the cash at the door and pays it back days later in one bank transfer covering hundreds of orders, so a missing or short-paid order slips through. After every payout, the app checks each order against the brand's own Razorpay order record. If money is missing, it hands the founder a ready claim. COD goes from Shiprocket to the brand's bank, and Razorpay never holds it.</p>
+      <div class="play-row">
+        <button class="btn primary" data-play="hero">▶ Play the 2-minute job</button>
+        <button class="btn" data-play="setup">One-time setup</button>
+        <button class="btn" data-play="how">How it works</button>
+      </div>
+    </header>
+
+    <nav class="side-tabs" role="tablist">
+      <button role="tab" data-tab="guide" aria-selected="true">Guide</button>
+      <button role="tab" data-tab="situations" aria-selected="false">Situations</button>
+      <button role="tab" data-tab="data" aria-selected="false">Data</button>
+      <button role="tab" data-tab="rules" aria-selected="false">Rules</button>
+    </nav>
+    <div class="side-body" id="sideBody"></div>
+    <footer class="side-foot">Demo merchant: Neel Home · Shiprocket Standard plan · today = <span id="todayLabel"></span> · every number on screen is computed live by the rules engine from the merchant's orders, Shiprocket shipments, payout lines and wallet statement.</footer>
+  </aside>
+</div>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="scenarios.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
