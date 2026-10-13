@@ -290,3 +290,33 @@ p.screen-lede { color: var(--muted); font-size: 14px; margin: 0 0 16px; line-hei
   .side-toggle { position: fixed; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 10px); z-index: 60; padding: 6px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
   .side { border-radius: 0; box-shadow: none; }
 }
+/* v3: owed boxes, setup info, selection, segmented views */
+.obox{border:1px solid var(--line,#E6E9F0);border-radius:12px;padding:10px 12px;margin:0 0 8px;background:#fff}
+.obox.click{cursor:pointer}
+.obox.red{border-color:#F6C9C9;background:#FFF6F6}.obox.amber{border-color:#F4DDB0;background:#FFFAF0}.obox.green{border-color:#CBEBD8;background:#F5FCF8}
+.obox .oh{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;gap:8px}
+.obox small{display:block;color:var(--muted,#6B7385);font-size:12px;margin-top:3px;line-height:1.4}
+.obox .orow2{display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}
+.infobtn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--blue,#2B6BF3);color:var(--blue,#2B6BF3);background:#fff;font:700 12px/1 Georgia,serif;font-style:italic;vertical-align:middle;margin-left:4px;cursor:pointer}
+.repstatus{display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:center}
+.repstatus small{grid-column:2;color:var(--muted,#6B7385);font-size:12px}
+.repstatus.ok{border-color:#CBEBD8;background:#F5FCF8}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid #D6E1FC;border-top-color:var(--blue,#2B6BF3);animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orow .checkbox{margin-right:10px;flex:none}
+.btn-block[disabled]{opacity:.45;cursor:not-allowed}
+.seg{display:flex;background:#EEF1F6;border-radius:10px;padding:3px;margin:0 0 12px}
+.seg button{flex:1;border:0;background:transparent;padding:8px;border-radius:8px;font:600 13px Inter,sans-serif;color:var(--muted,#6B7385);cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink,#0B1020);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.optrow{display:block;width:100%;text-align:left;border:1px solid var(--line,#E6E9F0);background:#fff;border-radius:12px;padding:10px 12px;margin:0 0 8px;cursor:pointer;font:inherit}
+.optrow small{display:block;color:var(--muted,#6B7385);font-size:12px;margin-top:2px}
+.attach{border:0;width:100%;text-align:left;cursor:pointer;font:inherit}
+.step-grp{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#6B7385);margin:10px 0 4px}
+.step-grp:first-child{margin-top:0}
+.kv.two{grid-template-columns:1fr 1fr}
+.kv.two small{line-height:1.4}
+ol.algo{padding-left:18px;margin:0}ol.algo li{margin:0 0 6px;font-size:13px;line-height:1.45}
+.states{font-size:12px;line-height:2.2}.states span{display:inline-block;border:1px solid #E1E5EE;border-radius:999px;padding:0 8px;margin:0 2px;background:#fff}
+.states span.g{background:#F5FCF8;border-color:#CBEBD8}.states span.a{background:#FFFAF0;border-color:#F4DDB0}.states span.r{background:#FFF6F6;border-color:#F6C9C9}.states span.pad{border:0;background:none;width:118px}
+.chip.grey{background:#EEF1F6;color:#4A5366}.chip.red{background:#FDECEC;color:#C0362C}
+.setup-banner{border-color:#D6E1FC;background:var(--blue-soft,#F2F6FF)}

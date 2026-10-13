@@ -8,7 +8,7 @@ A Razorpay mobile-app feature for D2C brands on Magic Checkout that ship cash-on
 
 ## What's inside
 - `engine.js`: the rules engine (deterministic, no AI). It works out what is owed (order total − online advance), when each order is due (Shiprocket Standard: first Mon/Wed/Fri after 8 working days), and when it can be claimed (after Shiprocket's 10 working days, with two payouts received). It never claims during a held payout and checks wallet charges.
-- `data.js`: the demo merchant Neel Home (orders, Shiprocket shipments, payout lines, wallet statement, daily reports), built deterministically.
+- `data.js`: the demo merchant Papaearth (orders, Shiprocket shipments, payout lines, wallet statement, daily reports), built deterministically.
 - `scenarios.js`: seven situations (money to claim, all paid, late, payout on hold, report not received, needs a look, after recovery).
 - `app.js`, `styles.css`, `index.html`: the app screens in the Razorpay app's look, plus a "behind the scenes" panel (Guide, Situations, Data, Rules).
 

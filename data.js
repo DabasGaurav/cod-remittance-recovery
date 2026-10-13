@@ -1,4 +1,4 @@
-/* Demo merchant dataset — Neel Home (Shiprocket, Standard plan).
+/* Demo merchant dataset — Papaearth (Shiprocket, Standard plan).
    Deterministic: the same dataset is built every time. Money in paise. */
 (function (root) {
   'use strict';
@@ -32,9 +32,9 @@
   function build() {
     const rand = rng(20261013);
     const orders = []; const shipments = []; const lines = []; const wallet = [];
-    const reserved = new Set(['NH-20391', 'NH-20417', 'NH-20433', 'NH-20440', 'NH-20451', 'NH-20475', 'NH-20488', 'NH-20502']);
+    const reserved = new Set(['PE-20391', 'PE-20417', 'PE-20433', 'PE-20440', 'PE-20451', 'PE-20475', 'PE-20488', 'PE-20502']);
     let counter = 20271;
-    const nextId = () => { let id; do { id = `NH-${counter++}`; } while (reserved.has(id)); return id; };
+    const nextId = () => { let id; do { id = `PE-${counter++}`; } while (reserved.has(id)); return id; };
     const awbOf = () => `1418${String(Math.floor(rand() * 1e8)).padStart(8, '0')}`;
     const time = () => { const h = 10 + Math.floor(rand() * 9); const m = Math.floor(rand() * 60); return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
 
@@ -75,9 +75,9 @@
     // Mon 5 Oct payout — delivered 21–22 Sep (the Fri 2 Oct slot moves to Mon 5)
     pay(group(60, 61240, ['2026-09-21', '2026-09-22']), 'CRF26100501');
 
-    // Wed 7 Oct payout — delivered 23–24 Sep, incl. #NH-20391
+    // Wed 7 Oct payout — delivered 23–24 Sep, incl. #PE-20391
     const b = group(77, 74615 - 1199, ['2026-09-23', '2026-09-24']);
-    const o391 = addOrder({ id: 'NH-20391', deliveredOn: '2026-09-23', owed: 1199, deliveredAt: '16:20' });
+    const o391 = addOrder({ id: 'PE-20391', deliveredOn: '2026-09-23', owed: 1199, deliveredAt: '16:20' });
     b.push({ ...o391, owed: 1199 });
     pay(b, 'CRF26100701');
     wallet.push({ date: '2026-10-08', awb: o391.sh.awb, orderId: o391.id, type: 'RTO Freight', debit: R(128), credit: 0, ref: 'PB-88213' });
@@ -85,15 +85,15 @@
     // Fri 9 Oct payout — delivered 25–28 Sep: 145 paid in full, 2 short, 5 not paid
     const paidFull = group(145, 147342, ['2026-09-25', '2026-09-26', '2026-09-27', '2026-09-28']);
     pay(paidFull, 'CRF26100901');
-    const s440 = addOrder({ id: 'NH-20440', deliveredOn: '2026-09-25', owed: 1499, deliveredAt: '12:48' });
-    const s475 = addOrder({ id: 'NH-20475', deliveredOn: '2026-09-26', owed: 1299, advance: 200, deliveredAt: '15:31' });
+    const s440 = addOrder({ id: 'PE-20440', deliveredOn: '2026-09-25', owed: 1499, deliveredAt: '12:48' });
+    const s475 = addOrder({ id: 'PE-20475', deliveredOn: '2026-09-26', owed: 1299, advance: 200, deliveredAt: '15:31' });
     lines.push({ account: 'SR1', crf: 'CRF26100901', awb: s440.sh.awb, orderId: s440.id, cod: s440.sh.codAmount, remitted: R(1049), remittanceDate: '2026-10-09' });
     lines.push({ account: 'SR1', crf: 'CRF26100901', awb: s475.sh.awb, orderId: s475.id, cod: s475.sh.codAmount, remitted: R(999), remittanceDate: '2026-10-09' });
-    addOrder({ id: 'NH-20417', deliveredOn: '2026-09-25', owed: 999, awb: '141826597301', outForDeliveryAt: '09:10', deliveredAt: '14:12' });
-    addOrder({ id: 'NH-20433', deliveredOn: '2026-09-26', owed: 1149, deliveredAt: '11:40' });
-    addOrder({ id: 'NH-20451', deliveredOn: '2026-09-26', owed: 1049, deliveredAt: '17:05' });
-    addOrder({ id: 'NH-20488', deliveredOn: '2026-09-27', owed: 899, deliveredAt: '13:22' });
-    addOrder({ id: 'NH-20502', deliveredOn: '2026-09-27', owed: 1149, deliveredAt: '16:48' });
+    addOrder({ id: 'PE-20417', deliveredOn: '2026-09-25', owed: 999, awb: '141826597301', outForDeliveryAt: '09:10', deliveredAt: '14:12' });
+    addOrder({ id: 'PE-20433', deliveredOn: '2026-09-26', owed: 1149, deliveredAt: '11:40' });
+    addOrder({ id: 'PE-20451', deliveredOn: '2026-09-26', owed: 1049, deliveredAt: '17:05' });
+    addOrder({ id: 'PE-20488', deliveredOn: '2026-09-27', owed: 899, deliveredAt: '13:22' });
+    addOrder({ id: 'PE-20502', deliveredOn: '2026-09-27', owed: 1149, deliveredAt: '16:48' });
 
     // Mon 12 Oct payout — delivered 29 Sep
     pay(group(41, 41150, ['2026-09-29']), 'CRF26101201');
@@ -119,7 +119,7 @@
     for (const r of remittances) r.total = lines.filter((l) => l.crf === r.crf).reduce((a, l) => a + l.remitted, 0);
 
     return {
-      merchant: { name: 'Neel Home', owner: 'Kavya', email: 'kavya@neelhome.in', shiprocketAccount: 'SR-118204' },
+      merchant: { name: 'Papaearth', owner: 'Kavya', email: 'kavya@papaearth.in', shiprocketAccount: 'SR-118204' },
       plan: 'standard',
       holidays: ['2026-10-02'],
       orders, shipments, remittances, lines, wallet,
