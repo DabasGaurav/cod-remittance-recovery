@@ -320,3 +320,7 @@ ol.algo{padding-left:18px;margin:0}ol.algo li{margin:0 0 6px;font-size:13px;line
 .states span.g{background:#F5FCF8;border-color:#CBEBD8}.states span.a{background:#FFFAF0;border-color:#F4DDB0}.states span.r{background:#FFF6F6;border-color:#F6C9C9}.states span.pad{border:0;background:none;width:118px}
 .chip.grey{background:#EEF1F6;color:#4A5366}.chip.red{background:#FDECEC;color:#C0362C}
 .setup-banner{border-color:#D6E1FC;background:var(--blue-soft,#F2F6FF)}
+.stepper.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stepper.two-col > div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.stepper.two-col .step-grp{margin:0 0 4px}
+@media (max-width:420px){.stepper.two-col{grid-template-columns:1fr}}

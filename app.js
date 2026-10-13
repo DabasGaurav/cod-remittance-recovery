@@ -619,7 +619,11 @@
     let h = '';
     if (st.sideTab === 'guide') {
       const flow = FLOWS[st.flow] || FLOWS.journey;
-      h += `<div class="stepper">${flow.map(([k, l, grp], i) => `${grp ? `<div class="step-grp">${grp}</div>` : ''}<button class="${st.screen === k ? 'on' : ''}" data-side-go="${k}"><i>${i + 1}</i>${l}</button>`).join('')}</div>`;
+      const btn = ([k, l], i) => `<button class="${st.screen === k ? 'on' : ''}" data-side-go="${k}"><i>${i + 1}</i>${l}</button>`;
+      if (st.flow === 'journey') {
+        const a = flow.slice(0, 4); const b = flow.slice(4);
+        h += `<div class="stepper two-col"><div><div class="step-grp">One-time setup</div>${a.map(btn).join('')}</div><div><div class="step-grp">The 2-minute job</div>${b.map(btn).join('')}</div></div>`;
+      } else h += `<div class="stepper">${flow.map(btn).join('')}</div>`;
       let g = GUIDE[st.screen] || GUIDE.home;
       if (st.screen === 'lock' && st.scenario !== 'hero') g = [g[0], SC[st.scenario].note];
       h += `<div class="explain"><b class="k">${g[0]}</b><p style="margin:6px 0 0">${g[1]}</p></div>`;
@@ -661,7 +665,16 @@ ${ls.map((l) => `${last4(l.crf)},${last4(l.awb)},${l.orderId.slice(1)},${l.cod /
       }
       h += `<h3>Order states</h3><p>An order is either <b>fully known</b> (paid, or claimable) or still <b>pending</b> (in transit, on time, or waiting). Pending orders simply sit as "on time" until their date passes. Then they either get paid, or move to overdue.</p>
         <div class="states"><span>In transit</span>→<span>On time</span>→<span class="g">Paid</span><br><span class="pad"></span>↘<span class="a">Late</span>→<span class="r">Overdue · claim</span>→<span>Claimed</span>→<span class="g">Recovered</span> / <span>Resolved</span></div>`;
-      h += `<h3>Inputs (live)</h3><div class="kv"><div><b>${codOrders().length}</b><small>COD orders</small></div><div><b>${r.ledger.length}</b><small>payout lines</small></div><div><b>${d.remittances.length}</b><small>payouts (CRF IDs)</small></div><div><b>${d.wallet.length}</b><small>wallet entries</small></div></div>`;
+    } else if (st.sideTab === 'rawdata') {
+      const v = view(); const ls = r.ledger.filter((l) => l.crf === v.crf).slice(0, 6);
+      h += `<h3>Inputs (live)</h3><div class="kv"><div><b>${d.orders.length}</b><small>Razorpay orders (${codOrders().length} COD)</small></div><div><b>${d.shipments.length}</b><small>Shiprocket shipments</small></div><div><b>${r.ledger.length}</b><small>payout lines</small></div><div><b>${d.remittances.length}</b><small>payouts (CRF IDs)</small></div><div><b>${d.wallet.length}</b><small>wallet entries</small></div><div><b>${d.reports.length}</b><small>${d.reports.length === 1 ? 'daily report (30 days)' : 'daily reports'}</small></div></div>`;
+      h += `<h3>How it fits together</h3><div class="arch">
+        <div class="lane"><span>Sources</span><div class="boxes"><div>Magic Checkout orders</div><div>Shiprocket API: shipments, tracking, wallet</div><div>Shiprocket daily Remittance Report</div></div></div>
+        <div class="lane"><span>Razorpay</span><div class="boxes"><div>Logistics connector (existing)</div><div class="new">COD Recon service: ledger · rules · claims</div><div>Notifications: push, WhatsApp</div></div></div>
+        <div class="lane"><span>App</span><div class="boxes"><div class="new">Home card</div><div class="new">Payout check</div><div class="new">Claim pack</div><div class="new">COD payouts tab</div></div></div>
+        <div class="lane"><span>Out</span><div class="boxes"><div>Claim email + CSV → Shiprocket Finance Desk</div><div>Recovery matched from later payouts</div></div></div></div>`;
+      h += `<h3>Lines in the ${fd(v.date)} payout (CRF ${last4(v.crf)})</h3><div class="tbl-wrap"><table class="tbl"><tr><th>Order</th><th>AWB</th><th class="r">COD</th><th class="r">Remitted</th></tr>${ls.map((l) => `<tr data-oid="${esc(l.orderId)}"><td>${esc(l.orderId)}</td><td>${last4(l.awb)}</td><td class="r">${inr(l.cod)}</td><td class="r">${inr(l.remitted)}</td></tr>`).join('')}<tr><td colspan="4" class="meta">… ${v.lineCount} lines in total · ${inr(v.paidTotal)}</td></tr></table></div>`;
+      h += `<h3>Status of every order</h3><div class="tbl-wrap"><table class="tbl"><tr><th>Status</th><th class="r">Orders</th></tr>${Object.entries(r.rows.reduce((a, x) => { a[x.status] = (a[x.status] || 0) + 1; return a; }, {})).map(([k, n]) => `<tr><td>${({ out_of_scope: 'prepaid (not checked)', not_owed: 'returned (RTO), nothing owed', not_remitted: 'not paid', short: 'paid short', on_time: 'on time', in_transit: 'in transit', waiting: 'late', cant_tell: "can't tell yet", needs_look: 'needs a look', paid_more: 'paid more' })[k] || k}</td><td class="r">${n}</td></tr>`).join('')}</table></div>`;
     } else if (st.sideTab === 'rules') {
       h += `<h3>How the check works</h3><ol class="algo">
         <li><b>Collect.</b> Orders from Razorpay; tracking and wallet from the Shiprocket API; payout lines from the daily report.</li>
