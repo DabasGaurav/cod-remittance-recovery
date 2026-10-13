@@ -446,7 +446,7 @@
       <div class="bigtick">✓</div><h1 class="screen-title">COD checks are on</h1>
       <p class="screen-lede">First check done: Shiprocket owes you ${inr(s.withShiprocket)} on ${plural(s.withShiprocketCount, 'delivered order')}${s.toClaimCod ? `, ${inr(s.toClaimCod)} of it overdue` : ''}.</p>
       <div class="card" style="text-align:left"><div class="rowline"><span class="dot green"></span><span class="txt"><b>We'll alert you only when something needs you</b><small>After every payout · Push, with WhatsApp as fallback</small></span></div></div></div>
-    </div><div class="sticky-cta"><button class="btn-block" data-act="enable">Allow notifications</button><button class="btn-block secondary" data-act="enable">Go to Home</button></div></div>`;
+    </div><div class="sticky-cta"><button class="btn-block" data-act="enable" data-notif="1">Allow notifications</button><button class="btn-block secondary" data-act="enable">Not now</button></div></div>`;
   };
 
   screens.txns = screens.settlements = () => `<div class="app">${statusbar()}<div class="scroll">
@@ -581,7 +581,7 @@
       else if (act === 'of') { st.orderFilter = a.dataset.k; render(); }
       else if (act === 'owed') { st.payoutView = 'owed'; st.orderFilter = a.dataset.k; go('payouts'); }
       else if (act === 'codtoggle') { st.codOn = !st.codOn; toast(st.codOn ? 'COD checks turned on' : 'COD checks turned off'); render(); }
-      else if (act === 'enable') { st.codOn = true; go('home'); }
+      else if (act === 'enable') { load(st.scenario); st.codOn = true; st.hist = ['setup4']; st.screen = 'lock'; st.flow = 'journey'; closeSheet(); render(); }
       else if (act === 'toast') toast(a.dataset.msg);
       else if (act === 'alert') { const k = a.dataset.k; st.alerts[k] = !st.alerts[k]; toast(`${k === 'push' ? 'Push notifications' : 'WhatsApp fallback'} turned ${st.alerts[k] ? 'on' : 'off'}`); render(); }
       return;
@@ -724,5 +724,5 @@ status           ${x.status}${x.claim ? `\nclaim            ${inr(x.claim)}` : '
 
   // expose for tests
   window.__cod = { st, go, back, load, render };
-  load('hero'); render();
+  load('hero'); st.screen = 'setup1'; render();
 })();
