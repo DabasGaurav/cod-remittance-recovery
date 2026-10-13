@@ -34,42 +34,7 @@
 
 ---
 
-## 2. How I set the AI up: an operating system, not a chat
-
-What I read first: how strong PMs use AI. [Productside's guide to AI product-management workflows](https://productside.com/the-ai-product-management-workflows-2026/) comes down to five habits:
-- keep persistent context;
-- use repeatable workflows instead of one-off prompts;
-- demand sources;
-- verify outputs;
-- keep human judgement on trade-offs.
-
-I built the process around those ideas.
-
-```mermaid
-flowchart LR
-  A[Brief + my rules] --> B[Rubric: 23 files<br/>stages, ledgers, templates]
-  B --> C[Worker agents<br/>one unit each]
-  C --> D[Independent checker agents<br/>did not do the work]
-  D -->|FAIL: fix list| C
-  D -->|PASS| E[Shared repo<br/>evidence · claims · decisions]
-  E --> F[Me: decide, reframe, cut]
-  F -->|new direction| B
-  F --> G[Build: engine → prototype → tests]
-  G --> H[QA agents + my review]
-  H --> F
-```
-
-| Practice | How it worked here |
-|---|---|
-| **Persistent context** | Handoff files (`HANDOFF.md`, `STATUS.md`, `HANDOFF-COD.md`) let each new session start from the true state, not from memory. Two registers held everything the AI must not forget: a **decision register** (D-001…D-010) and a **corrections register** (COR-01…) |
-| **Repeatable workflows** | Every worker got the same rules file and a stage rubric. Every finding needed an ID, a source URL, the source's date, the date accessed and a status tag (supported / reported / inferred / assumed) |
-| **Maker ≠ checker** | Checker agents had not done the work they checked. They opened at least five cited sources and every source behind a decision-critical claim, marked each requirement Pass or Fail, and sent back a fix list. Up to two fix rounds; anything still failing became an open gap, written down |
-| **Parallelism with a budget** | Research ran in waves of parallel agents, sized to the search limits we hit (about 200 searches per turn across all agents) |
-| **Human gates** | I stopped the pipeline at set points ("stop before solutioning", D-008) to read everything myself before the next phase |
-
----
-
-## 3. Key prompts and instructions
+## 2. Key prompts and instructions
 
 Excerpts that shaped the work, in my own words or from the rules files I set.
 
@@ -95,7 +60,7 @@ Excerpts that shaped the work, in my own words or from the rules files I set.
 
 ---
 
-## 4. The workflow, stage by stage
+## 3. The workflow, stage by stage
 
 | # | Stage | What AI did | What I did |
 |---|---|---|---|
@@ -106,31 +71,19 @@ Excerpts that shaped the work, in my own words or from the rules files I set.
 | 5 | **Deep dive: COD** | Six parallel research tracks: founder reality, the money chain, competitors, regulation, Razorpay building blocks, the bar to beat. Produced a 71,000-word master document | Narrowed from "COD Money Desk" (everything COD) to one job: get back the COD a courier owes |
 | 6 | **Stress tests** | 3 rounds × 8 reviewer agents (name, problem, experience, AI/data, regulation, competition, business, judge), each recomputing every number in Python; editor agents applied the fixes | Settled each round's open decisions (R2-1…R2-13) |
 | 7 | **Simplify to buildable** | 4 reviewers attacked the design for anything unimplementable; dug through Shiprocket's API, SDKs and report scheduler | Cut the touchpoints, cut Delhivery, chose email from the merchant's own account, removed AI from the product |
-| 8 | **Prototype** | Wrote the rules engine, the synthetic dataset, 8 situations, the screens and the "behind the scenes" panel | Reviewed every screen against the user journey; sent back about 20 changes (see §5) |
+| 8 | **Prototype** | Wrote the rules engine, the synthetic dataset, 8 situations, the screens and the "behind the scenes" panel | Reviewed every screen against the user journey; sent back about 20 changes (see §4) |
 | 9 | **QA** | Agents clicked every control across screens × situations × 5 screen sizes and reviewed every line of copy; Playwright asserts every number | Final calls on wording, order and what the judge sees first |
 | 10 | **Submission** | Drafted the note, video script and this log | Rewrote the note's argument for Razorpay, not Shiprocket; chose the metrics; approved every claim |
 
 ---
 
-## 5. AI outputs I rejected, corrected or significantly improved
+## 4. AI outputs I rejected, corrected or significantly improved
 
-### ★ The main one: I took AI out of the product
-
-**What AI proposed.** The early design had a model reading each courier's remittance file and an agent preparing claims. The master document even named it in Razorpay's Agent Studio style ("Remittance Recovery Agent").
-
-**Why I rejected it.** This job is arithmetic with one right answer, and the claim goes out in the founder's name to her courier. A model that reads files differently from week to week adds a new chance for a wrong number every time. If even one false claim goes out, the founder stops trusting the product.
-
-**What replaced it.** A fixed, auditable rules engine:
-- owed = order total − online advance, checked against Shiprocket's COD within ±₹1;
-- due on the first Mon/Wed/Fri on or after 8 working days;
-- claim only after Shiprocket's 10 working days, with two payouts received and no hold.
-
-Every rupee on screen traces back to an order, a payout line or a wallet entry. AI stayed where it is strong: building, researching, reviewing.
-
-### Other corrections
+### Corrections
 
 | AI output | What was wrong | What I changed |
 |---|---|---|
+| **A model inside the product reading courier files and preparing claims** | The job is arithmetic with one right answer, sent in the founder's name; a model adds a fresh chance of a wrong number every week | A fixed, auditable rules engine; every rupee traces to an order, a payout line or a wallet entry |
 | **Problems ranked by review counts** | Reviews over-represent merchants who lost money; counts measure anger, not size | Reviews corroborate only; a new 8-criterion ranking with a policy gate (D-010) |
 | **A "RAY-proof" ordering of problems** | Let one existing feature steer the whole problem space | Withdrawn; RAY treated like any other existing capability (D-005) |
 | **Weekly uploads of bank statements and wallet exports** | Too many touchpoints; no founder keeps that habit | Shiprocket's API plus its scheduled daily report: one setup, zero weekly effort |
@@ -147,7 +100,7 @@ Every rupee on screen traces back to an order, a payout line or a wallet entry. 
 
 ---
 
-## 6. What AI did vs what I decided or built
+## 5. What AI did vs what I decided or built
 
 | AI did | I decided or did |
 |---|---|
@@ -163,7 +116,7 @@ Every rupee on screen traces back to an order, a payout line or a wallet entry. 
 
 ---
 
-## 7. Known limitations, risks and how I verified the work
+## 6. Known limitations, risks and how I verified the work
 
 **Verification**
 - **Numbers:** every figure is computed by one rules engine from one dataset: ₹4,69,810 owed, the ₹6,123 claim, and the Fri 9 Oct payout of ₹1,55,385 due against ₹1,49,390 paid. A Playwright test clicks through every screen in all 8 situations and asserts them on screen.
@@ -175,7 +128,6 @@ Every rupee on screen traces back to an order, a payout line or a wallet entry. 
 | Limitation or risk | How we handle it |
 |---|---|
 | The demo data is synthetic | Built deterministically so every number reproduces; real data replaces it in a pilot |
-| How often COD goes missing isn't published anywhere | The first test is a one-week data pull across Magic Checkout merchants with Shiprocket linked, then a 10-merchant pilot |
 | Using the merchant's stored Shiprocket API user for remittance checks needs consent and partner agreement | Explicit consent screen; read-only scope; switchable off any time |
 | Shiprocket can change report formats | Ledger is append-only and de-duplicated; a missing report pauses claims rather than guessing |
 | AI-written research can carry wrong facts | Maker ≠ checker, source-opening rules, status tags, and a corrections register |
