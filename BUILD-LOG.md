@@ -1,6 +1,6 @@
 # AI Build Log · COD Remittance Recovery
 
-**Gaurav Dabas** · A personal product project
+**Gaurav Dabas** · Razorpay app feature prototype
 **Prototype:** [dabasgaurav.github.io/cod-remittance-recovery](https://dabasgaurav.github.io/cod-remittance-recovery/) · **Code:** this repository
 
 > **In one line:** I treated AI as a team I had to manage. Researchers, independent checkers, reviewers and an engineer all ran under written rules. The judgement calls stayed with me: which problem, for whom, what to cut, what to trust.
@@ -64,16 +64,16 @@ Excerpts that shaped the work, in my own words or from the rules files I set.
 
 | # | Stage | What AI did | What I did |
 |---|---|---|---|
-| 1 | **Scope and criteria** | Turned my starting question into a project charter, a 23-file evaluation rubric and requirement ledgers | Set the criteria weights and what "Indian SME merchant" means (D-001, D-002) |
-| 2 | **Company and portfolio** | Teardowns of Razorpay's app and products (8 units), competitors, company direction, comparable past work. Each was checked independently | Walked the live app on my phone with Claude watching; what we saw corrected the desk research (COR-21 to COR-27) |
+| 1 | **Brief and rubric** | Turned the brief into a case charter, a 23-file rubric and requirement ledgers | Set the scoring weights and what "Indian SME merchant" means (D-001, D-002) |
+| 2 | **Company and portfolio** | Teardowns of Razorpay's app and products (8 units), competitors, company direction, past competition entries. Each was checked independently | Walked the live app on my phone with Claude watching; what we saw corrected the desk research (COR-21 to COR-27) |
 | 3 | **Merchant voice** | Pulled 3,915 Razorpay app reviews plus rival reviews, coded 2,517 to 22 problems; a blind second model checked reliability (κ 0.91–0.97) | Decided reviews are complaint-biased: they illustrate, they never rank (D-010) |
 | 4 | **Problem ranking** | Researched "why hasn't Razorpay done this?" for each problem; re-ranked 22 + 8 new problems on 8 criteria behind a policy gate | Dropped policy-bound problems (held settlements, KYC, settlement speed); chose the COD money chain as a new use case Razorpay doesn't own |
 | 5 | **Deep dive: COD** | Six parallel research tracks: founder reality, the money chain, competitors, regulation, Razorpay building blocks, the bar to beat. Produced a 71,000-word master document | Narrowed from "COD Money Desk" (everything COD) to one job: get back the COD a courier owes |
-| 6 | **Stress tests** | 3 rounds × 8 reviewer agents (name, problem, experience, AI/data, regulation, competition, business, skeptical reader), each recomputing every number in Python; editor agents applied the fixes | Settled each round's open decisions (R2-1…R2-13) |
+| 6 | **Stress tests** | 3 rounds × 8 reviewer agents (name, problem, experience, AI/data, regulation, competition, business, judge), each recomputing every number in Python; editor agents applied the fixes | Settled each round's open decisions (R2-1…R2-13) |
 | 7 | **Simplify to buildable** | 4 reviewers attacked the design for anything unimplementable; dug through Shiprocket's API, SDKs and report scheduler | Cut the touchpoints, cut Delhivery, chose email from the merchant's own account, removed AI from the product |
 | 8 | **Prototype** | Wrote the rules engine, the synthetic dataset, 8 situations, the screens and the "behind the scenes" panel | Reviewed every screen against the user journey; sent back about 20 changes (see §4) |
-| 9 | **QA** | Agents clicked every control across screens × situations × 5 screen sizes and reviewed every line of copy; Playwright asserts every number | Final calls on wording, order and what a first-time reader sees first |
-| 10 | **Write-up** | Drafted the project note, a walkthrough script and this log | Rewrote the note's argument for Razorpay, not Shiprocket; chose the metrics; approved every claim |
+| 9 | **QA** | Agents clicked every control across screens × situations × 5 screen sizes and reviewed every line of copy; Playwright asserts every number | Final calls on wording, order and what the judge sees first |
+| 10 | **Submission** | Drafted the note, video script and this log | Rewrote the note's argument for Razorpay, not Shiprocket; chose the metrics; approved every claim |
 
 ---
 
@@ -95,7 +95,7 @@ Excerpts that shaped the work, in my own words or from the rules files I set.
 | **Shipments counted higher than orders** | Prepaid parcels were included | Same COD orders counted on both sides |
 | **Duplicate order IDs in one situation** | New demo orders reused existing numbers and showed "55 orders need a look" | IDs moved to a free range; caught by my screenshot review |
 | **A "Claim all" that was all-or-nothing** | Founders often want to chase one order, or have already settled one | Tick boxes with a live total, "Claim only this order", and "Mark as resolved" with three reasons |
-| **A one-pager written about Shiprocket** | It described the idea but didn't argue why Razorpay should build it | Rebuilt around the merchant, why disputes are routine, and Razorpay's reasons to own it |
+| **A one-pager written about Shiprocket** | It answered the brief but didn't argue why Razorpay should build it | Rebuilt around the merchant, why disputes are routine, and Razorpay's reasons to own it |
 | **"₹ recovered per merchant" as the north star** | It rises when couriers pay worse | North star changed to the share of claimable COD recovered within 30 days |
 
 ---
@@ -111,8 +111,8 @@ Excerpts that shaped the work, in my own words or from the rules files I set.
 | Drafted the 71,000-word master document and its four versions | What to cut: AI in the product, Delhivery, bank uploads, weight disputes, holding money |
 | Wrote the rules engine, the dataset, the screens and the tests | The experience: setup first, one number on Home, the founder sends and Razorpay never does |
 | Found Shiprocket's real claim route, report scheduler and API endpoints | The trust rules: never claim early, never claim during a hold |
-| Created the repo and deployed Pages through the browser | The demo story, the demo brand (Papaearth), every word a reader sees |
-| Ran QA across screens, situations and screen sizes | Final approval of every claim in every document |
+| Created the repo and deployed Pages through the browser | The demo story, the brand (Papaearth), every word judges read |
+| Ran QA across screens, situations and screen sizes | Final approval of every claim in every deliverable |
 
 ---
 

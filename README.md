@@ -8,7 +8,7 @@ A Razorpay app feature that makes sure D2C founders get **every rupee of cash-on
 
 **[▶ Open the live prototype](https://dabasgaurav.github.io/cod-remittance-recovery/)** · **[AI build log](BUILD-LOG.md)**
 
-*A product prototype by Gaurav Dabas*
+*Razorpay app feature prototype · Gaurav Dabas*
 
 </div>
 
